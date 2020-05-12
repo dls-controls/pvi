@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Any, ClassVar, List
+from typing import Any, ClassVar, List, Union
 
 from pydantic import BaseModel, Field
 
@@ -253,6 +253,20 @@ class AsynWaveform(AsynComponent):
     record_fields: WaveformAll = Field(
         WaveformAll(), description="Waveform record fields",
     )
+
+
+# Need to explicitly list the subclasses of AsynComponent here so they can be
+# used in the schema to work out what components are allowed
+AsynComponentUnion = Union[
+    AsynBinary,
+    AsynBusy,
+    AsynFloat64,
+    AsynInt32,
+    AsynLong,
+    AsynMultiBitBinary,
+    AsynString,
+    AsynWaveform,
+]
 
 
 class AsynProducer(Producer):

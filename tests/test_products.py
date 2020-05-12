@@ -1,13 +1,15 @@
+import json
 from pathlib import Path
+from unittest import mock
 
-from pvi import ChannelConfig, Group, Schema, Widget, cli
+from pvi import ChannelConfig, Group, PVISchema, Widget, cli
 
 PILATUS_YAML = Path(__file__).parent / "pilatus.pvi.yaml"
 EXPECTED = Path(__file__).parent / "expected"
 
 
 def test_channels():
-    pilatus_schema = Schema.load(PILATUS_YAML.parent, "pilatus")
+    pilatus_schema = PVISchema.load(PILATUS_YAML.parent, "pilatus")
     channel_tree = pilatus_schema.producer.produce_channels(pilatus_schema.components)
     assert len(channel_tree) == 1
     assert isinstance(channel_tree[0], Group)
@@ -52,3 +54,15 @@ def test_template(tmp_path: Path):
 
 def test_csv(tmp_path: Path):
     check_generation(tmp_path, "pilatus_parameters.csv")
+
+
+def test_schema_matches_stored_one(tmp_path: Path):
+    schema = str(tmp_path / "schema.json")
+    cli.main(["schema", schema])
+    expected = json.loads(
+        open(Path(__file__).parent.parent / "pvi" / "schema.json").read()
+    )
+    # Don't care if version number didn't update to match if the rest is the same
+    expected["title"] = mock.ANY
+    actual = json.loads(open(schema).read())
+    assert expected == actual

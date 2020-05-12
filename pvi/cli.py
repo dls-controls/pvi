@@ -1,7 +1,7 @@
 from argparse import ArgumentParser
 from pathlib import Path
 
-from ._schema import Schema
+from ._schema import PVISchema
 from ._types import Formatter
 
 SUFFIXES = ["." + x[7:] for x in Formatter.__dict__ if x.startswith("format_")]
@@ -9,7 +9,7 @@ SUFFIXES = ["." + x[7:] for x in Formatter.__dict__ if x.startswith("format_")]
 
 def schema(args):
     with open(args.json, "w") as f:
-        f.write(Schema.schema_json(indent=args.indent))
+        f.write(PVISchema.schema_json(indent=args.indent))
 
 
 def generate(args):
@@ -18,7 +18,7 @@ def generate(args):
     name = args.yaml.name
     assert name.endswith(".pvi.yaml"), "Expected '{name}' to end with '.pvi.yaml'"
     basename = name[:-9]
-    schema = Schema.load(args.yaml.parent, basename)
+    schema = PVISchema.load(args.yaml.parent, basename)
     if suffix == ".template":
         tree = schema.producer.produce_records(schema.components)
     elif suffix in (".cpp", ".h"):
