@@ -1,6 +1,8 @@
 from argparse import ArgumentParser
 from pathlib import Path
 
+from pvi.another_repo import DeviceConfig
+
 from ._schema import PVISchema
 from ._types import Formatter
 
@@ -24,9 +26,10 @@ def generate(args):
     elif suffix in (".cpp", ".h"):
         tree = schema.producer.produce_asyn_parameters(schema.components)
     else:
-        tree = schema.producer.produce_channels(schema.components)
+        channels = schema.producer.produce_channels(schema.components)
+        tree = DeviceConfig(macros=schema.macros, children=channels)
     format = getattr(schema.formatter, f"format_{suffix[1:]}")
-    text = format(tree, basename, schema.macros)
+    text = format(tree, basename)
     with open(args.out, "w") as f:
         f.write(text)
 

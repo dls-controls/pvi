@@ -7,9 +7,9 @@ from ruamel.yaml import YAML
 from ._aps import APSFormatter
 from ._asyn import AsynComponentUnion, AsynProducer
 from ._dls import DLSFormatter
-from ._macros import MacroUnion
 from ._types import Component, File, Group
 from ._version_git import __version__
+from .another_repo import MacroUnion
 
 # from ._stream import StreamComponentUnion, StreamProducer
 

@@ -3,8 +3,6 @@ from typing import Any, ClassVar, List, Union
 
 from pydantic import BaseModel, Field
 
-from pvi._types import ChannelConfig, DisplayForm, Widget
-
 from ._records import (
     AnalogueAll,
     BinaryAll,
@@ -15,6 +13,7 @@ from ._records import (
 )
 from ._types import AsynParameter, Component, Producer, Record, Tree
 from ._util import truncate_description
+from .another_repo import ChannelConfig, DisplayForm, Widget
 
 
 class TypeStrings(BaseModel):

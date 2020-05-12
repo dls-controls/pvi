@@ -2,7 +2,8 @@ import json
 from pathlib import Path
 from unittest import mock
 
-from pvi import ChannelConfig, Group, PVISchema, Widget, cli
+from pvi import Group, PVISchema, cli
+from pvi.another_repo import ChannelConfig, Widget
 
 PILATUS_YAML = Path(__file__).parent / "pilatus.pvi.yaml"
 EXPECTED = Path(__file__).parent / "expected"
