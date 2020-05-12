@@ -90,6 +90,3 @@ class PVISchema(BaseModel):
                     data[k] = v
         schema = cls(**data)
         return schema
-
-
-PVISchema.update_forward_refs()
